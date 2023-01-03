@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "outDir": "./dist",
+    "allowJs": true,
+    "removeComments": true,
+    "noEmitOnError": true,
+    "isolatedModules": true,
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": false,
+    "strict": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "typeRoots": ["src/typings"],
+    "types": ["node"]
+  },
+  "include": ["src/**/*"]
+}
+

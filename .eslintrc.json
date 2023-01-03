@@ -1,0 +1,53 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "ecmaFeatures": {
+      "globalReturn": false
+    },
+    "requireConfigFile": false
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:node/recommended",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:import/recommended",
+    "plugin:promise/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "prettier"
+  ],
+  "rules": {
+    "no-console": "off",
+    "@typescript-eslint/no-magic-numbers": [
+      "error",
+      { "ignore": [-1, 0, 1], "ignoreEnums": true }
+    ],
+    "@typescript-eslint/explicit-function-return-type": "warn",
+    "@typescript-eslint/member-delimiter-style": [
+      "error",
+      {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        }
+      }
+    ],
+    "class-methods-use-this": "off",
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-misused-promises": "off",
+    "import/prefer-default-export": "off",
+    "node/no-unsupported-features/es-syntax": "off",
+    "node/no-missing-import": "off",
+    "node/no-sync": "error"
+  }
+}
+
