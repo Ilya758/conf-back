@@ -4,6 +4,8 @@ export const validateEnv = (): void => {
   cleanEnv(process.env, {
     PORT: port(),
     NODE_ENV: str(),
-    CONNECTION_STRING: str(),
+    USERNAME: str(),
+    HOST: str(),
+    PASSWORD: str(),
   });
 };

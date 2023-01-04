@@ -4,6 +4,9 @@ config();
 
 export default {
   port: process.env.PORT,
-  connectionString: process.env.CONNECTION_STRING,
+  host: process.env.HOST,
   nodeEnv: process.env.NODE_ENV,
+  username: process.env.USERNAME,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
 };

@@ -11,7 +11,7 @@ import { validateEnv } from './utils/validateEnv';
 validateEnv();
 
 const {
-  default: { nodeEnv, port },
+  default: { database, host, nodeEnv, password, port },
 } = config;
 
 export default class App {
@@ -49,7 +49,18 @@ export default class App {
 
   private initializeErrorHandling = (): void => {};
 
-  private connectToTheDatabase = (): void => {};
+  private connectToTheDatabase = (): void => {
+    const sequelize = new Sequelize({
+      database,
+      dialect: 'postgres',
+      host,
+      username: 'postgres',
+      password,
+    });
+
+    sequelize.authenticate().catch((error) => {
+      console.log(error);
+    });
 
   public listen = (): void => {
     this.app.listen(port, () => {

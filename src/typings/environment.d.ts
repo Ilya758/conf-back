@@ -1,4 +1,10 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
 declare namespace NodeJS {
-  export interface ProcessEnv {}
+  export interface ProcessEnv {
+    PORT: string;
+    NODE_ENV: string;
+    HOST: string;
+    USERNAME: string;
+    PASSWORD: string;
+    DATABASE: string;
+  }
 }
