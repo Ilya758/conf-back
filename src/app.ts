@@ -3,6 +3,7 @@ import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
+import { Sequelize } from 'sequelize';
 import { DEFAULT_PORT } from './common/constants/defaultPort';
 import { IController } from './common/models/interfaces/IController';
 import * as config from './config';
@@ -11,7 +12,7 @@ import { validateEnv } from './utils/validateEnv';
 validateEnv();
 
 const {
-  default: { database, host, nodeEnv, password, port },
+  default: { database, host, nodeEnv, password, port, username },
 } = config;
 
 export default class App {
@@ -54,13 +55,14 @@ export default class App {
       database,
       dialect: 'postgres',
       host,
-      username: 'postgres',
+      username,
       password,
     });
 
     sequelize.authenticate().catch((error) => {
       console.log(error);
     });
+  };
 
   public listen = (): void => {
     this.app.listen(port, () => {
