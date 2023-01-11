@@ -1,0 +1,43 @@
+Table users {
+  id SERIAL [pk, increment]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+  username VARCHAR(50) [unique, not null]
+  password VARCHAR(50) [not null]
+}
+
+Table meetups {
+  id SERIAL [pk, increment]
+  created_at timestamp [default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [default: `CURRENT_TIMESTAMP`]
+  startTime time [not null]
+  title VARCHAR(40) [not null]
+  description VARCHAR(200)
+  location VARCHAR(30)
+}
+
+Table meetup_participants {
+  id SERIAL [pk, increment]
+  meetup_id INTEGER
+  participant_id INTEGER
+  isOrganizer boolean [not null]
+}
+
+Ref: meetup_participants.participant_id > users.id [delete: cascade]
+
+Ref: meetup_participants.meetup_id > meetups.id [delete: cascade]
+
+Table tags {
+  id SERIAL [pk, increment]
+  name VARCHAR(20) [not null]
+}
+
+Table meetup_tags {
+  id SERIAL [pk, increment]
+  meetup_id INTEGER
+  tag_id INTEGER
+}
+
+Ref: meetup_tags.meetup_id > meetups.id
+
+Ref: meetup_tags.tag_id > tags.id [delete: cascade]
