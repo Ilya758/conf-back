@@ -12,7 +12,7 @@ import { validateEnv } from './utils/validateEnv';
 validateEnv();
 
 const {
-  default: { database, host, nodeEnv, password, port, username },
+  default: { database, host, nodeEnv, password, port, username, dialect },
 } = config;
 
 export default class App {
@@ -53,7 +53,7 @@ export default class App {
   private connectToTheDatabase = (): void => {
     const sequelize = new Sequelize({
       database,
-      dialect: 'postgres',
+      dialect,
       host,
       username,
       password,

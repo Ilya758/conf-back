@@ -9,4 +9,5 @@ export default {
   username: process.env.NAME,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
+  dialect: process.env.DIALECT,
 };

@@ -5,6 +5,7 @@ declare namespace NodeJS {
     HOST: string;
     NAME: string;
     PASSWORD: string;
+    DIALECT: 'postgres';
     DATABASE: string;
   }
 }
