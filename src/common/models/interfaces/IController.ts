@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { ControllerPath } from '../../constants/controllerPath';
+import { AuthPath } from '../../constants/controllerPath';
 
 export interface IController {
-  path: ControllerPath;
+  path: AuthPath;
   router: Router;
 }

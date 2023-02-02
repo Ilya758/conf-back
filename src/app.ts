@@ -5,8 +5,10 @@ import express from 'express';
 import morgan from 'morgan';
 import { Sequelize } from 'sequelize';
 import { DEFAULT_PORT } from './common/constants/defaultPort';
-import { IController } from './common/models/interfaces/IController';
+import { IController } from './common/models/interfaces';
 import * as config from './config';
+import CreateUserDto from './controllers/auth/DTO/CreateUserDto';
+import { errorMiddleware } from './middlewares';
 import { validateEnv } from './utils/validateEnv';
 
 validateEnv();
@@ -48,7 +50,9 @@ export default class App {
     });
   };
 
-  private initializeErrorHandling = (): void => {};
+  private initializeErrorHandling = (): void => {
+    this.app.use(errorMiddleware);
+  };
 
   private connectToTheDatabase = (): void => {
     const sequelize = new Sequelize({
