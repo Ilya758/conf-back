@@ -48,6 +48,36 @@ export default class AuthService {
     };
   };
 
+  public signin = async (
+    sqlzInstance: Sequelize,
+    { password, username }: UserDto
+  ): Promise<Record<'id' | 'token', string>> => {
+    const userModel = getUserModel(sqlzInstance);
+    const user = await userModel.findOne({
+      where: { username },
+    });
+
+    if (user) {
+      const isPasswordEquals = await bcrypt.compare(
+        password,
+        user.dataValues.password
+      );
+
+      if (isPasswordEquals) {
+        const {
+          dataValues: { id },
+        } = user;
+        const { token } = this.createToken(id);
+
+        return { id, token };
+      }
+
+      throw this.createUserHttpException(AuthErrorCodes.PasswordsDoNotMatch);
+    }
+
+    throw this.createUserHttpException(AuthErrorCodes.UserDoesNotExist);
+  };
+
   public createToken = (id: string): ITokenData => ({
     token: jwt.sign({ id }, jwtSecret, { expiresIn: 3600 }),
   });

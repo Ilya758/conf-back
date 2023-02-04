@@ -39,7 +39,15 @@ export class AuthController implements Controller {
     }
   };
 
-  private signin: RequestHandler = (req, res, next) => {};
-
-  private logout: RequestHandler = (req, res, next) => {};
+  private signin: RequestHandler = async (
+    req: IRequest<UserDto>,
+    res,
+    next
+  ) => {
+    try {
+      res.send(await this.authService.signin(this.sqlzInstance, req.body));
+    } catch (error) {
+      next(error);
+    }
+  };
 }
