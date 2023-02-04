@@ -10,4 +10,5 @@ export default {
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   dialect: process.env.DIALECT,
+  jwtSecret: process.env.JWTSECRET,
 };
