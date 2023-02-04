@@ -5,7 +5,6 @@ import { HttpCodes } from '../../common/constants/httpCodes';
 import { TErrorConstraints } from '../../common/models/types/TErrorConstraints';
 import { AuthErrorCodes } from '../../controllers/auth/codes';
 import HttpException from '../../exceptions/httpException';
-import { createErrorMessage } from '../../utils/createErrorMessage';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
 
 export const validationMiddleware =
@@ -28,10 +27,8 @@ export const validationMiddleware =
 
         next(
           createUserHttpException(
-            createErrorMessage(
-              AuthErrorCodes.UserSingupDtoValidationFailed,
-              message
-            )
+            AuthErrorCodes.UserSingupDtoValidationFailed,
+            message
           )
         );
       } else {

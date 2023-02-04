@@ -5,7 +5,7 @@ import Controller from '../../common/models/abstract/Controller';
 import { IRequest } from '../../common/models/interfaces';
 import { validationMiddleware } from '../../middlewares/index';
 import AuthService from './auth.service';
-import CreateUserDto from './DTO/CreateUserDto';
+import UserDto from './DTO/UserDto';
 
 export class AuthController implements Controller {
   public path = AuthPath.SignUp;
@@ -23,13 +23,12 @@ export class AuthController implements Controller {
 
   private initializeRoutes = (): void => {
     this.router
-      .post(AuthPath.SignUp, validationMiddleware(CreateUserDto), this.signup)
-      .post(AuthPath.SignIn, this.signin)
-      .get(AuthPath.LogOut, this.logout);
+      .post(AuthPath.SignUp, validationMiddleware(UserDto), this.signup)
+      .post(AuthPath.SignIn, this.signin);
   };
 
   private signup: RequestHandler = async (
-    req: IRequest<CreateUserDto>,
+    req: IRequest<UserDto>,
     res,
     next
   ): Promise<void> => {

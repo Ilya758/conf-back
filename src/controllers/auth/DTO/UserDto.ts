@@ -1,6 +1,6 @@
 import { IsString, Length } from 'class-validator';
 
-export default class CreateUserDto {
+export default class UserDto {
   @IsString({
     message: 'Username must be string',
   })
