@@ -7,8 +7,8 @@
     "start": "cross-env NODE_ENV=development nodemon --esm --experimental-specifier-resolution=node --files ./src/server.ts",
     "start:prod": "cross-env NODE_ENV=production node ./dist/server.js",
     "lint": "npm run lint:fix && npm run prettier:fix",
-    "lint:fix": "eslint --max-warnings=0 --fix */**.ts",
-    "prettier:fix": "prettier --write src/**.ts",
+    "lint:fix": "eslint --max-warnings=0 --fix src/**/*.ts",
+    "prettier:fix": "prettier --write src/**/*.ts",
     "build": "npm run lint && tsc",
     "prepare": "husky install"
   },

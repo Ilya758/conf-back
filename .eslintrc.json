@@ -26,10 +26,6 @@
   ],
   "rules": {
     "no-console": "off",
-    "@typescript-eslint/no-magic-numbers": [
-      "error",
-      { "ignore": [-1, 0, 1], "ignoreEnums": true }
-    ],
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/member-delimiter-style": [
       "error",
