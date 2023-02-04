@@ -1,4 +1,4 @@
 export enum AuthErrorCodes {
-  UserSignupValidationFailed = 1,
-  UserSigninValidationFailed = 2,
+  UserSingupDtoValidationFailed = 1,
+  UsernameIsNotUnique = 2,
 }

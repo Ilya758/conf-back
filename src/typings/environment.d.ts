@@ -7,5 +7,6 @@ declare namespace NodeJS {
     PASSWORD: string;
     DIALECT: 'postgres';
     DATABASE: string;
+    JWTSECRET: string;
   }
 }
