@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Request, Response } from 'express';
-import { HttpCodes } from '../common/constants/httpCodes';
-import HttpException from '../exceptions/httpException';
+import { HttpCodes } from '../../common/constants/httpCodes';
+import HttpException from '../../exceptions/httpException';
 
 export const errorMiddleware = (
   error: HttpException,
@@ -9,10 +9,10 @@ export const errorMiddleware = (
   response: Response,
   __: NextFunction
 ): void => {
-  const { status, code } = error;
-  const message = error.message || 'Something went wrong';
+  const { status, message: errorMessage } = error;
+  const [code, message] = errorMessage.split(' - ');
   response.status(status || HttpCodes.InternalServerError).send({
-    code,
-    message,
+    code: Number(code) ?? 0,
+    message: message ?? 'Internal server error',
   });
 };

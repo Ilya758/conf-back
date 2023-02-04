@@ -1,4 +1,4 @@
-import { errorMiddleware } from './error.middleware';
-import { validationMiddleware } from './validation.middleware';
+import { errorMiddleware } from './error';
+import { validationMiddleware } from './validation';
 
 export { errorMiddleware, validationMiddleware };

@@ -5,9 +5,9 @@ import express from 'express';
 import morgan from 'morgan';
 import { Sequelize } from 'sequelize';
 import { DEFAULT_PORT } from './common/constants/defaultPort';
-import { IController } from './common/models/interfaces';
+import { TControllerTypes } from './common/models/types';
 import * as config from './config';
-import CreateUserDto from './controllers/auth/DTO/CreateUserDto';
+import { AuthController } from './controllers/auth';
 import { errorMiddleware } from './middlewares';
 import { validateEnv } from './utils/validateEnv';
 
@@ -20,12 +20,13 @@ const {
 export default class App {
   private app: express.Application;
 
-  constructor(controllers: IController[]) {
+  constructor() {
     this.app = express();
 
-    this.connectToTheDatabase();
+    const sqlz = this.connectToTheDatabase();
+    const controllers = [AuthController];
     this.initializeMiddlewares();
-    this.initializeControllers(controllers);
+    this.initializeControllers(controllers, sqlz);
     this.initializeErrorHandling();
   }
 
@@ -44,8 +45,12 @@ export default class App {
     this.app.use(cors());
   };
 
-  private initializeControllers = (controllers: IController[]): void => {
-    controllers.forEach(({ router }) => {
+  private initializeControllers = (
+    controllers: TControllerTypes,
+    sqlzInstance: Sequelize
+  ): void => {
+    controllers.forEach((Controller) => {
+      const { router } = new Controller(sqlzInstance);
       this.app.use('/', router);
     });
   };
@@ -54,7 +59,7 @@ export default class App {
     this.app.use(errorMiddleware);
   };
 
-  private connectToTheDatabase = (): void => {
+  private connectToTheDatabase = (): Sequelize => {
     const sequelize = new Sequelize({
       database,
       dialect,
@@ -66,6 +71,8 @@ export default class App {
     sequelize.authenticate().catch((error) => {
       console.log(error);
     });
+
+    return sequelize;
   };
 
   public listen = (): void => {

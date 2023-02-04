@@ -1,13 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';
-import { HttpCodes } from '../common/constants/httpCodes';
-import { TErrorConstraints } from '../common/models/types';
-import { AuthErrorCodes } from '../controllers/auth/codes';
-import HttpException from '../exceptions/httpException';
+import { HttpCodes } from '../../common/constants/httpCodes';
+import { TErrorConstraints } from '../../common/models/types/TErrorConstraints';
+import { AuthErrorCodes } from '../../controllers/auth/codes';
+import HttpException from '../../exceptions/httpException';
+import { createErrorMessage } from '../../utils/createErrorMessage';
+import { createUserHttpException } from '../../utils/createHttpExceptions';
 
 export const validationMiddleware =
   (
@@ -21,7 +20,6 @@ export const validationMiddleware =
       });
 
       if (errors.length) {
-        console.log(errors);
         const message = errors
           .map((error: ValidationError) =>
             Object.values(<TErrorConstraints>error.constraints).join(', ')
@@ -29,16 +27,17 @@ export const validationMiddleware =
           .join(', ');
 
         next(
-          new HttpException(
-            HttpCodes.BadRequest,
-            AuthErrorCodes.UserSignupValidationFailed,
-            message
+          createUserHttpException(
+            createErrorMessage(
+              AuthErrorCodes.UserSingupDtoValidationFailed,
+              message
+            )
           )
         );
       } else {
         next();
       }
     } catch (error) {
-      next(new HttpException(HttpCodes.InternalServerError, 0, ''));
+      next(new HttpException(HttpCodes.InternalServerError, ''));
     }
   };
