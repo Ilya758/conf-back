@@ -2,8 +2,8 @@ import { AuthErrorCodes } from './errorCodes';
 import { AuthErrorMessages } from './errorMessages';
 
 const authErrorCodesMap = {
-  [AuthErrorCodes.UserSingupDtoValidationFailed]:
-    AuthErrorMessages.UserSingupDtoValidationFailed,
+  [AuthErrorCodes.InvalidUserCredentials]:
+    AuthErrorMessages.InvalidUserCredentials,
   [AuthErrorCodes.UsernameIsNotUnique]: AuthErrorMessages.UsernameIsNotUnique,
   [AuthErrorCodes.UserDoesNotExist]: AuthErrorMessages.UserDoesNotExist,
   [AuthErrorCodes.PasswordsDoNotMatch]: AuthErrorMessages.PasswordsDoNotMatch,

@@ -27,7 +27,7 @@ export const validationMiddleware =
 
         next(
           createUserHttpException(
-            AuthErrorCodes.UserSingupDtoValidationFailed,
+            AuthErrorCodes.InvalidUserCredentials,
             message
           )
         );

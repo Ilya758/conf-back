@@ -9,7 +9,7 @@ import { TControllerTypes } from './common/models/types';
 import * as config from './config';
 import { AuthController } from './controllers/auth';
 import { errorMiddleware } from './middlewares';
-import { validateEnv } from './utils/validateEnv';
+import { validateEnv } from './utils';
 
 validateEnv();
 

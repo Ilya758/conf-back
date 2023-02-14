@@ -1,3 +1,4 @@
 dist
 .env
+.sql
 node_modules

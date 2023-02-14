@@ -1,6 +1,6 @@
 import { HttpCodes } from '../../common/constants/httpCodes';
 import HttpException from '../../exceptions/httpException';
-import { createErrorMessage } from '../createErrorMessage';
+import { createErrorMessage } from '..';
 
 export const createUserHttpException = (
   code: number,

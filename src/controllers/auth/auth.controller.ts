@@ -24,7 +24,7 @@ export class AuthController implements Controller {
   private initializeRoutes = (): void => {
     this.router
       .post(AuthPath.SignUp, validationMiddleware(UserDto), this.signup)
-      .post(AuthPath.SignIn, this.signin);
+      .post(AuthPath.SignIn, validationMiddleware(UserDto), this.signin);
   };
 
   private signup: RequestHandler = async (
