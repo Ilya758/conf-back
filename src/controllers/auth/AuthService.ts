@@ -1,13 +1,12 @@
-import { Sequelize } from 'sequelize';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
 import { AuthErrorCodes, authErrorCodesMap } from './codes';
 import { UserDto } from './DTO';
-import { getUserModel } from './models/user.model';
 import * as config from '../../config';
 import { ITokenData } from '../../common/models/interfaces';
 import HttpException from '../../exceptions/httpException';
+import { ModelService } from '../../models/ModelService';
 
 const {
   default: { jwtSecret },
@@ -17,14 +16,14 @@ export default class AuthService {
   public createUserHttpException = (code: number): HttpException =>
     createUserHttpException(code, authErrorCodesMap);
 
-  public signup = async (
-    sqlzInstance: Sequelize,
-    { password, username }: UserDto
-  ): Promise<Record<'id' | 'token', string>> => {
-    const userModel = getUserModel(sqlzInstance);
+  public signup = async ({
+    password,
+    username,
+  }: UserDto): Promise<Record<'id' | 'token', string>> => {
+    const UserModel = ModelService.modelDefinitions.userModel;
 
     if (
-      await userModel.findOne({
+      await UserModel.findOne({
         where: {
           username,
         },
@@ -36,7 +35,7 @@ export default class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const {
       dataValues: { id },
-    } = await userModel.create({
+    } = await UserModel.create({
       username,
       password: hashedPassword,
     });
@@ -48,12 +47,12 @@ export default class AuthService {
     };
   };
 
-  public signin = async (
-    sqlzInstance: Sequelize,
-    { password, username }: UserDto
-  ): Promise<Record<'id' | 'token', string>> => {
-    const userModel = getUserModel(sqlzInstance);
-    const user = await userModel.findOne({
+  public signin = async ({
+    password,
+    username,
+  }: UserDto): Promise<Record<'id' | 'token', string>> => {
+    const UserModel = ModelService.modelDefinitions.userModel;
+    const user = await UserModel.findOne({
       where: { username },
     });
 

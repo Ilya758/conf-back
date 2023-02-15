@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors from 'cors';
@@ -5,9 +6,8 @@ import express from 'express';
 import morgan from 'morgan';
 import { Sequelize } from 'sequelize';
 import { DEFAULT_PORT } from './common/constants/defaultPort';
-import { TControllerTypes } from './common/models/types';
+import { IController } from './common/models/interfaces';
 import * as config from './config';
-import { AuthController } from './controllers/auth';
 import { errorMiddleware } from './middlewares';
 import { validateEnv } from './utils';
 
@@ -20,13 +20,12 @@ const {
 export default class App {
   private app: express.Application;
 
-  constructor() {
+  constructor(controllers: IController[]) {
     this.app = express();
 
-    const sqlz = this.connectToTheDatabase();
-    const controllers = [AuthController];
+    this.connectToTheDatabase();
     this.initializeMiddlewares();
-    this.initializeControllers(controllers, sqlz);
+    this.initializeControllers(controllers);
     this.initializeErrorHandling();
   }
 
@@ -45,12 +44,8 @@ export default class App {
     this.app.use(cors());
   };
 
-  private initializeControllers = (
-    controllers: TControllerTypes,
-    sqlzInstance: Sequelize
-  ): void => {
-    controllers.forEach((Controller) => {
-      const { router } = new Controller(sqlzInstance);
+  private initializeControllers = (controllers: IController[]): void => {
+    controllers.forEach(({ router }) => {
       this.app.use('/', router);
     });
   };

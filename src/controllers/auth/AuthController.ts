@@ -1,23 +1,16 @@
 import { RequestHandler, Router } from 'express';
-import { Sequelize } from 'sequelize';
 import { AuthPath } from '../../common/constants/controllerPath';
-import Controller from '../../common/models/abstract/Controller';
-import { IRequest } from '../../common/models/interfaces';
+import { IController, IRequest } from '../../common/models/interfaces';
 import { validationMiddleware } from '../../middlewares/index';
-import AuthService from './auth.service';
+import AuthService from './AuthService';
 import UserDto from './DTO/UserDto';
 
-export class AuthController implements Controller {
-  public path = AuthPath.SignUp;
-
+export class AuthController implements IController {
   public authService = new AuthService();
 
   public router = Router();
 
-  public sqlzInstance: Sequelize;
-
-  constructor(sqlzInstance: Sequelize) {
-    this.sqlzInstance = sqlzInstance;
+  constructor() {
     this.initializeRoutes();
   }
 
@@ -33,7 +26,7 @@ export class AuthController implements Controller {
     next
   ): Promise<void> => {
     try {
-      res.send(await this.authService.signup(this.sqlzInstance, req.body));
+      res.send(await this.authService.signup(req.body));
     } catch (error) {
       next(error);
     }
@@ -45,7 +38,7 @@ export class AuthController implements Controller {
     next
   ) => {
     try {
-      res.send(await this.authService.signin(this.sqlzInstance, req.body));
+      res.send(await this.authService.signin(req.body));
     } catch (error) {
       next(error);
     }
