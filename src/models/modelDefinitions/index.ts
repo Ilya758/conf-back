@@ -1,13 +1,5 @@
-import { MeetupModel } from './MeetupModel';
-import { MeetupParticipantsModel } from './MeetupParticipantsModel';
-import { MeetupTagModel } from './MeetupTagModel';
-import { TagModel } from './TagModel';
-import { UserModel } from './UserModel';
-
-export {
-  MeetupModel,
-  MeetupParticipantsModel,
-  MeetupTagModel,
-  TagModel,
-  UserModel,
-};
+export { MeetupModel } from './MeetupModel';
+export { MeetupParticipantsModel } from './MeetupParticipantsModel';
+export { MeetupTagModel } from './MeetupTagModel';
+export { TagModel } from './TagModel';
+export { UserModel } from './UserModel';

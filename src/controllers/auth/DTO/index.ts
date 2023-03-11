@@ -1,3 +1,1 @@
-import UserDto from './UserDto';
-
-export { UserDto };
+export { default as UserDto } from './UserDto';

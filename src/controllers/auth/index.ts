@@ -1,3 +1,1 @@
-import { AuthController } from './AuthController';
-
-export { AuthController };
+export { AuthController } from './AuthController';

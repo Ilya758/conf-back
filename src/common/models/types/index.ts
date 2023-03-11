@@ -1,3 +1,1 @@
-import { TErrorConstraints } from './TErrorConstraints';
-
-export type { TErrorConstraints };
+export type { TErrorConstraints } from './TErrorConstraints';

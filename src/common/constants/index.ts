@@ -1,5 +1,4 @@
-import { DEFAULT_PORT } from './defaultPort';
-import { HttpCodes } from './httpCodes';
-import { TableName } from './tableName';
-
-export { DEFAULT_PORT, HttpCodes, TableName };
+export { DEFAULT_PORT } from './defaultPort';
+export { AuthPath, MeetupPath } from './controllerPath';
+export { HttpCodes } from './httpCodes';
+export { TableName } from './tableName';
