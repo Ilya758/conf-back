@@ -9,6 +9,7 @@ import { DEFAULT_PORT } from './common/constants/defaultPort';
 import { IController } from './common/models/interfaces';
 import * as config from './config';
 import { errorMiddleware } from './middlewares';
+import { ModelService } from './models/ModelService';
 import { validateEnv } from './utils';
 
 validateEnv();
@@ -67,7 +68,13 @@ export default class App {
       console.log(error);
     });
 
+    this.initializeModels(sequelize);
+
     return sequelize;
+  };
+
+  private initializeModels = (sequelize: Sequelize): void => {
+    new ModelService(sequelize);
   };
 
   public listen = (): void => {
