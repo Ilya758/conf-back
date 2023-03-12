@@ -6,3 +6,7 @@ export enum AuthErrorMessages {
   AuthenticationTokenIsMissing = 'Authentication token is missing',
   WrongAuthenticationToken = 'Auth token is expired/invalid or has been corrupted',
 }
+
+export enum CommonErrorMessages {
+  PrimaryKeyValidationFailed = 'Primary key validation failed',
+}

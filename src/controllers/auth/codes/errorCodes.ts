@@ -6,3 +6,7 @@ export enum AuthErrorCodes {
   AuthenticationTokenIsMissing = 5,
   WrongAuthenticationToken = 6,
 }
+
+export enum CommonErrorCodes {
+  PrimaryKeyValidationFailed = 7,
+}

@@ -1,5 +1,5 @@
-import { AuthErrorCodes } from './errorCodes';
-import { AuthErrorMessages } from './errorMessages';
+import { AuthErrorCodes, CommonErrorCodes } from './errorCodes';
+import { AuthErrorMessages, CommonErrorMessages } from './errorMessages';
 
 const authErrorCodesMap = {
   [AuthErrorCodes.InvalidUserCredentials]:
@@ -9,4 +9,14 @@ const authErrorCodesMap = {
   [AuthErrorCodes.PasswordsDoNotMatch]: AuthErrorMessages.PasswordsDoNotMatch,
 };
 
-export { AuthErrorCodes, authErrorCodesMap };
+const commonErrorCodesMap = {
+  [CommonErrorCodes.PrimaryKeyValidationFailed]:
+    CommonErrorMessages.PrimaryKeyValidationFailed,
+};
+
+export {
+  AuthErrorCodes,
+  CommonErrorCodes,
+  authErrorCodesMap,
+  commonErrorCodesMap,
+};
