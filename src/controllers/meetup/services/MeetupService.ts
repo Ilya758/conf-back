@@ -1,13 +1,23 @@
-import { Sequelize } from 'sequelize';
+import { Filterable, Sequelize } from 'sequelize';
+import { IMeetupModel } from '../../../common/models/interfaces';
 import { ModelService } from '../../../models/ModelService';
 import { arrayAggregate, includeAssociation } from '../../../utils/sequelize';
 
 export default class MeetupService {
-  public getAll = async (): Promise<ReturnType<typeof meetupModel.findAll>> => {
+  public getAll = async (
+    id: string | null = null
+  ): Promise<
+    | ReturnType<typeof meetupModel.findAll>
+    | ReturnType<typeof meetupModel.findByPk>
+  > => {
     const {
       modelDefinitions: { meetupModel, tagModel, userModel },
     } = ModelService;
-
+    const whereStatement: Filterable<IMeetupModel>['where'] = id
+      ? {
+          id,
+        }
+      : {};
     const meetups = await meetupModel.findAll({
       attributes: {
         include: [
@@ -22,8 +32,9 @@ export default class MeetupService {
       ],
       order: [[Sequelize.literal('meetups.id'), 'ASC']],
       group: ['meetups.id'],
+      where: whereStatement,
     });
 
-    return meetups;
+    return !id ? meetups : meetups[0];
   };
 }

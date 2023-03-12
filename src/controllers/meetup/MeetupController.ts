@@ -2,6 +2,7 @@ import { RequestHandler, Router } from 'express';
 import { MeetupPath } from '../../common/constants/controllerPath';
 import { IController } from '../../common/models/interfaces';
 import { authMiddleware } from '../../middlewares';
+import { validatePrimaryKey } from '../../middlewares/validatePrimaryKey';
 import { useAllPathRoute } from '../../utils';
 import { MeetupService } from './services';
 
@@ -17,13 +18,27 @@ export class MeetupController implements IController {
   private initializeRoutes(): void {
     this.router
       .all(useAllPathRoute(MeetupPath.Meetups), authMiddleware)
-      .get(`${MeetupPath.Meetups}`, this.getAll);
+      .get(`${MeetupPath.Meetups}`, this.getAll)
+      .get(`${MeetupPath.Meetups}/:id`, validatePrimaryKey, this.getById);
   }
 
   private getAll: RequestHandler = async (_, res, next) => {
     try {
       const meetups = await this.meetupService.getAll();
       res.send(meetups);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  private getById: RequestHandler<{ id: string }> = async (
+    { params: { id } },
+    res,
+    next
+  ) => {
+    try {
+      const meetup = await this.meetupService.getAll(id);
+      res.send(meetup);
     } catch (error) {
       next(error);
     }
