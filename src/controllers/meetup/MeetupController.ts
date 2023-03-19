@@ -27,6 +27,15 @@ export class MeetupController implements IController {
         ),
         this.createMeetup
       )
+      .put(
+        `${MeetupPath.Meetups}/:id`,
+        validatePrimaryKey,
+        validationMiddleware(
+          UpdateMeetupDto,
+          MeetupErrorCodes.MeetupDtoValidationFailed
+        ),
+        this.updateMeetup
+      )
       .get(`${MeetupPath.Meetups}/:id`, validatePrimaryKey, this.getById);
   }
 
@@ -67,6 +76,26 @@ export class MeetupController implements IController {
           meetupErrorCodesMap
         )
       );
+    }
+  };
+
+  private updateMeetup: RequestHandler = async (
+    req: IRequest<UpdateMeetupDto>,
+    res,
+    next
+  ) => {
+    try {
+      if (!req.params.id)
+        createUserHttpException(
+          MeetupErrorCodes.MeetupIsNotExist,
+          meetupErrorCodesMap
+        );
+
+      await this.meetupService.updateMeetup(Number(req.params.id), req.body);
+
+      res.sendStatus(HttpCodes.NoContent);
+    } catch (error) {
+      next(error);
     }
   };
 

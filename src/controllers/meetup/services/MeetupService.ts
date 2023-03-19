@@ -104,4 +104,124 @@ export default class MeetupService {
     return <number>meetupId;
   };
 
+  public updateMeetup = async (
+    id: number,
+    meetup: UpdateMeetupDto
+  ): Promise<void> | never => {
+    const {
+      modelDefinitions: { meetupModel },
+    } = ModelService;
+
+    if (await meetupModel.findByPk(id)) {
+      const { participantIds, tagIds } = meetup;
+
+      await meetupModel.update(meetup, {
+        where: {
+          id,
+        },
+      });
+
+      try {
+        await this.updateParticipants(id, participantIds);
+        await this.updateTags(id, tagIds);
+      } catch (error) {
+        throw createUserHttpException(
+          MeetupErrorCodes.MeetupUpdateFailed,
+          meetupErrorCodesMap
+        );
+      }
+    } else {
+      throw createUserHttpException(
+        MeetupErrorCodes.MeetupIsNotExist,
+        meetupErrorCodesMap
+      );
+    }
+  };
+
+
+  public updateParticipants = async (
+    id: number,
+    participantIds: number[] | null = null
+  ): Promise<void> | never => {
+    const {
+      sequelize,
+      modelDefinitions: { meetupParticipantsModel },
+    } = ModelService;
+
+    const participants = await meetupParticipantsModel.findAll({
+      where: {
+        meetup_id: {
+          [Op.eq]: id,
+        },
+      },
+    });
+
+    await sequelize.transaction(async (t) => {
+      if (participantIds) {
+        if (participants.length > 1) {
+          const organizer = participants.find(
+            ({ dataValues: { is_organizer } }) => is_organizer
+          );
+
+          await meetupParticipantsModel.destroy({
+            where: {
+              participant_id: {
+                [Op.ne]: organizer?.dataValues.participant_id,
+              },
+            },
+          });
+        }
+
+        if (participantIds.length)
+          await meetupParticipantsModel.bulkCreate(
+            participantIds.map((participant_id) => ({
+              meetup_id: id,
+              participant_id,
+              is_organizer: false,
+            })),
+            { transaction: t }
+          );
+      }
+    });
+  };
+
+  public updateTags = async (
+    id: number,
+    tagIds: number[] | null = null
+  ): Promise<void> | never => {
+    const {
+      sequelize,
+      modelDefinitions: { meetupTagsModel },
+    } = ModelService;
+
+    await sequelize.transaction(async (t) => {
+      if (tagIds) {
+        const tags = await meetupTagsModel.findAll({
+          where: {
+            meetup_id: {
+              [Op.eq]: id,
+            },
+          },
+        });
+
+        if (tags.length)
+          await meetupTagsModel.destroy({
+            where: {
+              meetup_id: {
+                [Op.eq]: id,
+              },
+            },
+          });
+
+        if (tagIds.length)
+          await meetupTagsModel.bulkCreate(
+            tagIds.map((tag_id) => ({
+              meetup_id: id,
+              tag_id,
+            })),
+            { transaction: t }
+          );
+      }
+    });
+  };
 }
