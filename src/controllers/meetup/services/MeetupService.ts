@@ -171,15 +171,16 @@ export default class MeetupService {
       modelDefinitions: { meetupParticipantsModel },
     } = ModelService;
 
-    const participants = await meetupParticipantsModel.findAll({
-      where: {
-        meetup_id: {
-          [Op.eq]: id,
-        },
-      },
-    });
-
     await sequelize.transaction(async (t) => {
+      const participants = await meetupParticipantsModel.findAll({
+        transaction: t,
+        where: {
+          meetup_id: {
+            [Op.eq]: id,
+          },
+        },
+      });
+
       if (participantIds) {
         if (participants.length > 1) {
           const organizer = participants.find(
@@ -187,6 +188,7 @@ export default class MeetupService {
           );
 
           await meetupParticipantsModel.destroy({
+            transaction: t,
             where: {
               participant_id: {
                 [Op.ne]: organizer?.dataValues.participant_id,
@@ -220,6 +222,7 @@ export default class MeetupService {
     await sequelize.transaction(async (t) => {
       if (tagIds) {
         const tags = await meetupTagsModel.findAll({
+          transaction: t,
           where: {
             meetup_id: {
               [Op.eq]: id,
@@ -229,6 +232,7 @@ export default class MeetupService {
 
         if (tags.length)
           await meetupTagsModel.destroy({
+            transaction: t,
             where: {
               meetup_id: {
                 [Op.eq]: id,
