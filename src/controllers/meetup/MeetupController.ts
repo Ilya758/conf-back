@@ -1,9 +1,13 @@
 import { RequestHandler, Router } from 'express';
+import { HttpCodes } from '../../common/constants';
 import { MeetupPath } from '../../common/constants/controllerPath';
-import { IController } from '../../common/models/interfaces';
-import { authMiddleware } from '../../middlewares';
+import { IController, IRequest } from '../../common/models/interfaces';
+import { authMiddleware, validationMiddleware } from '../../middlewares';
 import { validatePrimaryKey } from '../../middlewares/validatePrimaryKey';
 import { useAllPathRoute } from '../../utils';
+import { createUserHttpException } from '../../utils/createHttpExceptions';
+import { MeetupErrorCodes, meetupErrorCodesMap } from '../auth/codes';
+import { CreateMeetupDto, UpdateMeetupDto } from './DTO';
 import { MeetupService } from './services';
 
 export class MeetupController implements IController {
@@ -35,6 +39,11 @@ export class MeetupController implements IController {
           MeetupErrorCodes.MeetupDtoValidationFailed
         ),
         this.updateMeetup
+      )
+      .delete(
+        `${MeetupPath.Meetups}/:id`,
+        validatePrimaryKey,
+        this.deleteMeetup
       )
       .get(`${MeetupPath.Meetups}/:id`, validatePrimaryKey, this.getById);
   }
@@ -99,4 +108,18 @@ export class MeetupController implements IController {
     }
   };
 
+  private deleteMeetup: RequestHandler = async (req, res, next) => {
+    try {
+      if (!req.params.id)
+        createUserHttpException(
+          MeetupErrorCodes.MeetupUpdateFailed,
+          meetupErrorCodesMap
+        );
+
+      await this.meetupService.deleteMeetup(Number(req.params.id));
+      res.sendStatus(HttpCodes.NoContent);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
