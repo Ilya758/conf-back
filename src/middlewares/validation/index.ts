@@ -3,13 +3,13 @@ import { validate, ValidationError } from 'class-validator';
 import { RequestHandler } from 'express';
 import { HttpCodes } from '../../common/constants/httpCodes';
 import { TErrorConstraints } from '../../common/models/types/TErrorConstraints';
-import { AuthErrorCodes } from '../../controllers/auth/codes';
 import HttpException from '../../exceptions/httpException';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
 
 export const validationMiddleware =
   (
     type: ClassConstructor<object>,
+    errorCode: number,
     skipMissingProperties = false
   ): RequestHandler =>
   async (req, _, next) => {
@@ -25,12 +25,7 @@ export const validationMiddleware =
           )
           .join(', ');
 
-        next(
-          createUserHttpException(
-            AuthErrorCodes.InvalidUserCredentials,
-            message
-          )
-        );
+        next(createUserHttpException(errorCode, message));
       } else {
         next();
       }

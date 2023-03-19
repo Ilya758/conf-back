@@ -3,6 +3,7 @@ import { AuthPath } from '../../common/constants/controllerPath';
 import { IController, IRequest } from '../../common/models/interfaces';
 import { validationMiddleware } from '../../middlewares/index';
 import AuthService from './AuthService';
+import { AuthErrorCodes } from './codes';
 import UserDto from './DTO/UserDto';
 
 export class AuthController implements IController {
@@ -16,8 +17,16 @@ export class AuthController implements IController {
 
   private initializeRoutes = (): void => {
     this.router
-      .post(AuthPath.SignUp, validationMiddleware(UserDto), this.signup)
-      .post(AuthPath.SignIn, validationMiddleware(UserDto), this.signin);
+      .post(
+        AuthPath.SignUp,
+        validationMiddleware(UserDto, AuthErrorCodes.InvalidUserCredentials),
+        this.signup
+      )
+      .post(
+        AuthPath.SignIn,
+        validationMiddleware(UserDto, AuthErrorCodes.InvalidUserCredentials),
+        this.signin
+      );
   };
 
   private signup: RequestHandler = async (

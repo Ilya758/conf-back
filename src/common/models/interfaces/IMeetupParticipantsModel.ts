@@ -1,6 +1,6 @@
 export interface IMeetupParticipantsModel {
-  id: string;
-  meetup_id: string;
-  participant_id: string;
+  id: number;
+  meetup_id: number;
+  participant_id: number;
   is_organizer: boolean;
 }

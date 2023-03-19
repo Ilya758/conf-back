@@ -21,6 +21,8 @@ export class ModelService {
 
   static modelDefinitions: TModelDefinitions;
 
+  static sequelize: Sequelize;
+
   constructor(sequelize: Sequelize) {
     if (ModelService.instance) {
       return ModelService.instance;
@@ -33,6 +35,8 @@ export class ModelService {
       tagModel: TagModel(sequelize),
       userModel: UserModel(sequelize),
     };
+
+    ModelService.sequelize = sequelize;
 
     this.associateMeetupsWithTags();
     this.associateMeetupWithParticipants();
