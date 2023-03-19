@@ -46,4 +46,62 @@ export default class MeetupService {
 
     return !id ? meetups : meetups[0];
   };
+
+  public createMeetup = async (
+    meetup: CreateMeetupDto
+  ): Promise<number> | never => {
+    const {
+      modelDefinitions: {
+        meetupModel,
+        meetupParticipantsModel,
+        meetupTagsModel,
+      },
+      sequelize,
+    } = ModelService;
+
+    const meetupId = await sequelize.transaction(async (t) => {
+      const {
+        dataValues: { id },
+      } = await meetupModel.create(meetup, { transaction: t });
+
+      if (id) {
+        if (meetup.tagIds) {
+          await meetupTagsModel.bulkCreate(
+            meetup.tagIds.map((tag_id) => ({
+              tag_id,
+              meetup_id: id,
+            })),
+            { transaction: t }
+          );
+        }
+
+        const { participantIds, organizerId } = meetup;
+
+        const participants = [
+          meetup.organizerId,
+          ...(participantIds
+            ? getUniqueParticipants(participantIds, organizerId)
+            : []),
+        ].map((participant_id, index) => ({
+          participant_id,
+          is_organizer: index === 0,
+          meetup_id: id,
+        }));
+
+        await meetupParticipantsModel.bulkCreate(participants, {
+          transaction: t,
+        });
+      } else {
+        createUserHttpException(
+          MeetupErrorCodes.MeetupCreationFailed,
+          meetupErrorCodesMap
+        );
+      }
+
+      return id;
+    });
+
+    return <number>meetupId;
+  };
+
 }

@@ -19,6 +19,14 @@ export class MeetupController implements IController {
     this.router
       .all(useAllPathRoute(MeetupPath.Meetups), authMiddleware)
       .get(`${MeetupPath.Meetups}`, this.getAll)
+      .post(
+        `${MeetupPath.Meetups}`,
+        validationMiddleware(
+          CreateMeetupDto,
+          MeetupErrorCodes.MeetupDtoValidationFailed
+        ),
+        this.createMeetup
+      )
       .get(`${MeetupPath.Meetups}/:id`, validatePrimaryKey, this.getById);
   }
 
@@ -43,4 +51,23 @@ export class MeetupController implements IController {
       next(error);
     }
   };
+
+  private createMeetup: RequestHandler = async (
+    req: IRequest<CreateMeetupDto>,
+    res,
+    next
+  ) => {
+    try {
+      const id = await this.meetupService.createMeetup(req.body);
+      res.status(HttpCodes.Created).send({ id });
+    } catch (error) {
+      next(
+        createUserHttpException(
+          MeetupErrorCodes.MeetupDtoValidationFailed,
+          meetupErrorCodesMap
+        )
+      );
+    }
+  };
+
 }
