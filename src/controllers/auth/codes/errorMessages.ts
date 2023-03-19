@@ -10,3 +10,10 @@ export enum AuthErrorMessages {
 export enum CommonErrorMessages {
   PrimaryKeyValidationFailed = 'Primary key validation failed',
 }
+
+export enum MeetupErrorMessages {
+  MeetupIsNotExist = "Meetup isn't exist",
+  MeetupDtoValidationFailed = 'Meetup DTO validation failed',
+  MeetupCreationFailed = 'Meetup creation failed',
+  MeetupUpdateFailed = 'Meetup update failed',
+}

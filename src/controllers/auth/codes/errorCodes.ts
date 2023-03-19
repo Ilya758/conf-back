@@ -10,3 +10,10 @@ export enum AuthErrorCodes {
 export enum CommonErrorCodes {
   PrimaryKeyValidationFailed = 7,
 }
+
+export enum MeetupErrorCodes {
+  MeetupIsNotExist = 8,
+  MeetupDtoValidationFailed = 9,
+  MeetupCreationFailed = 10,
+  MeetupUpdateFailed = 11,
+}

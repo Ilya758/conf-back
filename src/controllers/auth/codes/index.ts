@@ -1,5 +1,13 @@
-import { AuthErrorCodes, CommonErrorCodes } from './errorCodes';
-import { AuthErrorMessages, CommonErrorMessages } from './errorMessages';
+import {
+  AuthErrorCodes,
+  CommonErrorCodes,
+  MeetupErrorCodes,
+} from './errorCodes';
+import {
+  AuthErrorMessages,
+  CommonErrorMessages,
+  MeetupErrorMessages,
+} from './errorMessages';
 
 const authErrorCodesMap = {
   [AuthErrorCodes.InvalidUserCredentials]:
@@ -14,9 +22,20 @@ const commonErrorCodesMap = {
     CommonErrorMessages.PrimaryKeyValidationFailed,
 };
 
+const meetupErrorCodesMap = {
+  [MeetupErrorCodes.MeetupIsNotExist]: MeetupErrorMessages.MeetupIsNotExist,
+  [MeetupErrorCodes.MeetupDtoValidationFailed]:
+    MeetupErrorMessages.MeetupDtoValidationFailed,
+  [MeetupErrorCodes.MeetupCreationFailed]:
+    MeetupErrorMessages.MeetupCreationFailed,
+  [MeetupErrorCodes.MeetupUpdateFailed]: MeetupErrorMessages.MeetupUpdateFailed,
+};
+
 export {
   AuthErrorCodes,
   CommonErrorCodes,
+  MeetupErrorCodes,
   authErrorCodesMap,
   commonErrorCodesMap,
+  meetupErrorCodesMap,
 };
