@@ -6,10 +6,12 @@ import { arrayAggregate, includeAssociation } from '../../../utils/sequelize';
 export default class MeetupService {
   public getAll = async (
     id: string | null = null
-  ): Promise<
-    | ReturnType<typeof meetupModel.findAll>
-    | ReturnType<typeof meetupModel.findByPk>
-  > => {
+  ):
+    | Promise<
+        | ReturnType<typeof meetupModel.findAll>
+        | ReturnType<typeof meetupModel.findByPk>
+      >
+    | never => {
     const {
       modelDefinitions: { meetupModel, tagModel, userModel },
     } = ModelService;
@@ -34,6 +36,13 @@ export default class MeetupService {
       group: ['meetups.id'],
       where: whereStatement,
     });
+
+    if (id && !meetups.length) {
+      throw createUserHttpException(
+        MeetupErrorCodes.MeetupIsNotExist,
+        meetupErrorCodesMap
+      );
+    }
 
     return !id ? meetups : meetups[0];
   };
