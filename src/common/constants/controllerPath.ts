@@ -6,3 +6,7 @@ export enum AuthPath {
 export enum MeetupPath {
   Meetups = '/meetups',
 }
+
+export enum TagPath {
+  Tags = '/tags',
+}

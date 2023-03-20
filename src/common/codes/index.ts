@@ -2,11 +2,13 @@ import {
   AuthErrorCodes,
   CommonErrorCodes,
   MeetupErrorCodes,
+  TagErrorCodes,
 } from './errorCodes';
 import {
   AuthErrorMessages,
   CommonErrorMessages,
   MeetupErrorMessages,
+  TagErrorMessages,
 } from './errorMessages';
 
 const authErrorCodesMap = {
@@ -35,11 +37,17 @@ const meetupErrorCodesMap = {
   [MeetupErrorCodes.MeetupUpdateFailed]: MeetupErrorMessages.MeetupUpdateFailed,
 };
 
+const tagErrorCodesMap = {
+  [TagErrorCodes.TagIsNotExist]: TagErrorMessages.TagIsNotExist,
+};
+
 export {
   AuthErrorCodes,
   CommonErrorCodes,
   MeetupErrorCodes,
+  TagErrorCodes,
   authErrorCodesMap,
   commonErrorCodesMap,
   meetupErrorCodesMap,
+  tagErrorCodesMap,
 };

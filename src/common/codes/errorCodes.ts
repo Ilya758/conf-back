@@ -17,3 +17,7 @@ export enum MeetupErrorCodes {
   MeetupCreationFailed = 10,
   MeetupUpdateFailed = 11,
 }
+
+export enum TagErrorCodes {
+  TagIsNotExist = 12,
+}

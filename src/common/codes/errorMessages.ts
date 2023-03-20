@@ -17,3 +17,7 @@ export enum MeetupErrorMessages {
   MeetupCreationFailed = 'Meetup creation failed',
   MeetupUpdateFailed = 'Meetup update failed',
 }
+
+export enum TagErrorMessages {
+  TagIsNotExist = "Tag isn't exist",
+}
