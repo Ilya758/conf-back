@@ -130,7 +130,7 @@ export default class MeetupService {
         await this.updateTags(id, tagIds);
       } catch (error) {
         throw createUserHttpException(
-          MeetupErrorCodes.MeetupUpdateFailed,
+          MeetupErrorCodes.MeetupModificationFailed,
           meetupErrorCodesMap
         );
       }

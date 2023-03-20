@@ -1,11 +1,12 @@
 import { RequestHandler, Router } from 'express';
-import { TagErrorCodes } from '../../common/codes';
+import { TagErrorCodes, tagErrorCodesMap } from '../../common/codes';
 import { HttpCodes } from '../../common/constants';
 import { TagPath } from '../../common/constants/controllerPath';
 import { IController, IRequest } from '../../common/models/interfaces';
 import { authMiddleware, validationMiddleware } from '../../middlewares';
 import { validatePrimaryKey } from '../../middlewares/validatePrimaryKey';
 import { useAllPathRoute } from '../../utils';
+import { createUserHttpException } from '../../utils/createHttpExceptions';
 import { TagDto } from './DTO';
 import TagService from './TagService';
 
@@ -27,6 +28,12 @@ export class TagController implements IController {
         TagPath.Tags,
         validationMiddleware(TagDto, TagErrorCodes.TagDtoValidationFailed),
         this.createTag
+      )
+      .put(
+        `${TagPath.Tags}/:id`,
+        validatePrimaryKey,
+        validationMiddleware(TagDto, TagErrorCodes.TagDtoValidationFailed),
+        this.updateTag
       );
   };
 
@@ -60,6 +67,24 @@ export class TagController implements IController {
     try {
       const id = await this.tagService.createTag(req.body);
       res.status(HttpCodes.Created).send({ id });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  private updateTag: RequestHandler = async (
+    req: IRequest<TagDto>,
+    res,
+    next
+  ) => {
+    try {
+      if (!req.params.id)
+        throw createUserHttpException(
+          TagErrorCodes.TagModificationFailed,
+          tagErrorCodesMap
+        );
+      await this.tagService.updateTag(+req.params.id, req.body);
+      res.sendStatus(204);
     } catch (error) {
       next(error);
     }

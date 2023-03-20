@@ -34,7 +34,10 @@ const meetupErrorCodesMap = {
     MeetupErrorMessages.MeetupDtoValidationFailed,
   [MeetupErrorCodes.MeetupCreationFailed]:
     MeetupErrorMessages.MeetupCreationFailed,
-  [MeetupErrorCodes.MeetupUpdateFailed]: MeetupErrorMessages.MeetupUpdateFailed,
+  [MeetupErrorCodes.MeetupModificationFailed]:
+    MeetupErrorMessages.MeetupModificationFailed,
+  [MeetupErrorCodes.MeetupDeletionFailed]:
+    MeetupErrorMessages.MeetupDeletionFailed,
 };
 
 const tagErrorCodesMap = {
@@ -42,6 +45,7 @@ const tagErrorCodesMap = {
   [TagErrorCodes.TagDtoValidationFailed]:
     TagErrorMessages.TagDtoValidationFailed,
   [TagErrorCodes.TagCreationFailed]: TagErrorMessages.TagCreationFailed,
+  [TagErrorCodes.TagModificationFailed]: TagErrorMessages.TagModificationFailed,
 };
 
 export {

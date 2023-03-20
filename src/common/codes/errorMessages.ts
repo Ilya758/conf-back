@@ -15,11 +15,13 @@ export enum MeetupErrorMessages {
   MeetupIsNotExist = "Meetup isn't exist",
   MeetupDtoValidationFailed = 'Meetup DTO validation failed',
   MeetupCreationFailed = 'Meetup creation failed',
-  MeetupUpdateFailed = 'Meetup update failed',
+  MeetupModificationFailed = 'Meetup modification failed',
+  MeetupDeletionFailed = 'Meetup deletion failed',
 }
 
 export enum TagErrorMessages {
   TagIsNotExist = "Tag isn't exist",
   TagDtoValidationFailed = 'Tag DTO validation failed',
   TagCreationFailed = 'Tag creation failed',
+  TagModificationFailed = 'Tag modification failed',
 }

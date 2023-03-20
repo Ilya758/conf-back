@@ -15,11 +15,13 @@ export enum MeetupErrorCodes {
   MeetupIsNotExist = 8,
   MeetupDtoValidationFailed = 9,
   MeetupCreationFailed = 10,
-  MeetupUpdateFailed = 11,
+  MeetupModificationFailed = 11,
+  MeetupDeletionFailed = 12,
 }
 
 export enum TagErrorCodes {
-  TagIsNotExist = 12,
-  TagDtoValidationFailed = 13,
-  TagCreationFailed = 14,
+  TagIsNotExist = 13,
+  TagDtoValidationFailed = 14,
+  TagCreationFailed = 15,
+  TagModificationFailed = 15,
 }

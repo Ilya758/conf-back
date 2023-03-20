@@ -51,4 +51,29 @@ export default class TagService {
       );
     }
   };
+
+  public updateTag = async (id: number, tag: TagDto): Promise<void> | never => {
+    const {
+      modelDefinitions: { tagModel },
+    } = ModelService;
+    if (await tagModel.findByPk(id)) {
+      try {
+        await tagModel.update(tag, {
+          where: {
+            id,
+          },
+        });
+      } catch (error) {
+        throw createUserHttpException(
+          TagErrorCodes.TagModificationFailed,
+          tagErrorCodesMap
+        );
+      }
+    } else {
+      throw createUserHttpException(
+        TagErrorCodes.TagIsNotExist,
+        tagErrorCodesMap
+      );
+    }
+  };
 }

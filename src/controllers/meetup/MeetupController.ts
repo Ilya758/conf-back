@@ -96,7 +96,7 @@ export class MeetupController implements IController {
     try {
       if (!req.params.id)
         createUserHttpException(
-          MeetupErrorCodes.MeetupIsNotExist,
+          MeetupErrorCodes.MeetupModificationFailed,
           meetupErrorCodesMap
         );
 
@@ -112,7 +112,7 @@ export class MeetupController implements IController {
     try {
       if (!req.params.id)
         createUserHttpException(
-          MeetupErrorCodes.MeetupUpdateFailed,
+          MeetupErrorCodes.MeetupDeletionFailed,
           meetupErrorCodesMap
         );
 
