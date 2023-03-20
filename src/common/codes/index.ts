@@ -46,6 +46,7 @@ const tagErrorCodesMap = {
     TagErrorMessages.TagDtoValidationFailed,
   [TagErrorCodes.TagCreationFailed]: TagErrorMessages.TagCreationFailed,
   [TagErrorCodes.TagModificationFailed]: TagErrorMessages.TagModificationFailed,
+  [TagErrorCodes.TagDeletionFailed]: TagErrorMessages.TagDeletionFailed,
 };
 
 export {

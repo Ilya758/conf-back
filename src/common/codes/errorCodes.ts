@@ -24,4 +24,5 @@ export enum TagErrorCodes {
   TagDtoValidationFailed = 14,
   TagCreationFailed = 15,
   TagModificationFailed = 15,
+  TagDeletionFailed = 16,
 }

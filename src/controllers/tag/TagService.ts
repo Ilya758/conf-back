@@ -76,4 +76,25 @@ export default class TagService {
       );
     }
   };
+
+  public deleteTag = async (id: number): Promise<void> | never => {
+    const {
+      modelDefinitions: { tagModel },
+    } = ModelService;
+    if (await tagModel.findByPk(id)) {
+      try {
+        await tagModel.destroy({ where: { id } });
+      } catch (error) {
+        throw createUserHttpException(
+          TagErrorCodes.TagDeletionFailed,
+          tagErrorCodesMap
+        );
+      }
+    } else {
+      throw createUserHttpException(
+        TagErrorCodes.TagIsNotExist,
+        tagErrorCodesMap
+      );
+    }
+  };
 }

@@ -34,7 +34,8 @@ export class TagController implements IController {
         validatePrimaryKey,
         validationMiddleware(TagDto, TagErrorCodes.TagDtoValidationFailed),
         this.updateTag
-      );
+      )
+      .delete(`${TagPath.Tags}/:id`, validatePrimaryKey, this.deleteTag);
   };
 
   private getAll: RequestHandler = async (_, res, next) => {
@@ -84,6 +85,20 @@ export class TagController implements IController {
           tagErrorCodesMap
         );
       await this.tagService.updateTag(+req.params.id, req.body);
+      res.sendStatus(204);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  private deleteTag: RequestHandler = async (req, res, next) => {
+    try {
+      if (!req.params.id)
+        throw createUserHttpException(
+          TagErrorCodes.TagDeletionFailed,
+          tagErrorCodesMap
+        );
+      await this.tagService.deleteTag(+req.params.id);
       res.sendStatus(204);
     } catch (error) {
       next(error);

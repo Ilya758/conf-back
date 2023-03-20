@@ -24,4 +24,5 @@ export enum TagErrorMessages {
   TagDtoValidationFailed = 'Tag DTO validation failed',
   TagCreationFailed = 'Tag creation failed',
   TagModificationFailed = 'Tag modification failed',
+  TagDeletionFailed = 'Tag deletion failed',
 }
