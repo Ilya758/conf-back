@@ -15,6 +15,10 @@ const authErrorCodesMap = {
   [AuthErrorCodes.UsernameIsNotUnique]: AuthErrorMessages.UsernameIsNotUnique,
   [AuthErrorCodes.UserDoesNotExist]: AuthErrorMessages.UserDoesNotExist,
   [AuthErrorCodes.PasswordsDoNotMatch]: AuthErrorMessages.PasswordsDoNotMatch,
+  [AuthErrorCodes.AuthenticationTokenIsMissing]:
+    AuthErrorMessages.AuthenticationTokenIsMissing,
+  [AuthErrorCodes.WrongAuthenticationToken]:
+    AuthErrorMessages.WrongAuthenticationToken,
 };
 
 const commonErrorCodesMap = {

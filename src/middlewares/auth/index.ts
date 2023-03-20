@@ -2,18 +2,14 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { IStoredToken } from '../../common/models/interfaces/IStoredToken';
 import config from '../../config';
-import { AuthErrorCodes } from '../../controllers/auth/codes';
-import { AuthErrorMessages } from '../../controllers/auth/codes/errorMessages';
+import {
+  AuthErrorCodes,
+  authErrorCodesMap,
+} from '../../controllers/auth/codes';
 import { ModelService } from '../../models/ModelService';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
 
 const { jwtSecret } = config;
-const errorCodesMap = {
-  [AuthErrorCodes.AuthenticationTokenIsMissing]:
-    AuthErrorMessages.AuthenticationTokenIsMissing,
-  [AuthErrorCodes.WrongAuthenticationToken]:
-    AuthErrorMessages.WrongAuthenticationToken,
-};
 
 export const authMiddleware = async (
   req: Request,
@@ -24,7 +20,7 @@ export const authMiddleware = async (
     next(
       createUserHttpException(
         AuthErrorCodes.WrongAuthenticationToken,
-        errorCodesMap
+        authErrorCodesMap
       )
     );
   };
@@ -50,7 +46,7 @@ export const authMiddleware = async (
     next(
       createUserHttpException(
         AuthErrorCodes.AuthenticationTokenIsMissing,
-        errorCodesMap
+        authErrorCodesMap
       )
     );
   }
