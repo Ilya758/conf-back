@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
-import { AuthErrorCodes, authErrorCodesMap } from './codes';
+import { AuthErrorCodes, authErrorCodesMap } from '../../common/codes';
 import { UserDto } from './DTO';
 import * as config from '../../config';
 import { ITokenData } from '../../common/models/interfaces';

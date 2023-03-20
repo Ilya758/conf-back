@@ -2,10 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { IStoredToken } from '../../common/models/interfaces/IStoredToken';
 import config from '../../config';
-import {
-  AuthErrorCodes,
-  authErrorCodesMap,
-} from '../../controllers/auth/codes';
+import { AuthErrorCodes, authErrorCodesMap } from '../../common/codes';
 import { ModelService } from '../../models/ModelService';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
 

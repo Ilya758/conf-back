@@ -3,7 +3,7 @@ import { IMeetupModel } from '../../../common/models/interfaces';
 import { ModelService } from '../../../models/ModelService';
 import { createUserHttpException } from '../../../utils/createHttpExceptions';
 import { arrayAggregate, includeAssociation } from '../../../utils/sequelize';
-import { MeetupErrorCodes, meetupErrorCodesMap } from '../../auth/codes';
+import { MeetupErrorCodes, meetupErrorCodesMap } from '../../../common/codes';
 import { CreateMeetupDto, UpdateMeetupDto } from '../DTO';
 import { getUniqueParticipants } from './helpers';
 

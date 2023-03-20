@@ -6,7 +6,7 @@ import { authMiddleware, validationMiddleware } from '../../middlewares';
 import { validatePrimaryKey } from '../../middlewares/validatePrimaryKey';
 import { useAllPathRoute } from '../../utils';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
-import { MeetupErrorCodes, meetupErrorCodesMap } from '../auth/codes';
+import { MeetupErrorCodes, meetupErrorCodesMap } from '../../common/codes';
 import { CreateMeetupDto, UpdateMeetupDto } from './DTO';
 import { MeetupService } from './services';
 

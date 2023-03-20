@@ -1,8 +1,5 @@
 import { RequestHandler } from 'express';
-import {
-  CommonErrorCodes,
-  commonErrorCodesMap,
-} from '../../controllers/auth/codes';
+import { CommonErrorCodes, commonErrorCodesMap } from '../../common/codes';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
 
 // eslint-disable-next-line @typescript-eslint/require-await

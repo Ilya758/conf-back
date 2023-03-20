@@ -3,7 +3,7 @@ import { AuthPath } from '../../common/constants/controllerPath';
 import { IController, IRequest } from '../../common/models/interfaces';
 import { validationMiddleware } from '../../middlewares/index';
 import AuthService from './AuthService';
-import { AuthErrorCodes } from './codes';
+import { AuthErrorCodes } from '../../common/codes';
 import UserDto from './DTO/UserDto';
 
 export class AuthController implements IController {
