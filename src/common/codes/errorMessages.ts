@@ -20,4 +20,6 @@ export enum MeetupErrorMessages {
 
 export enum TagErrorMessages {
   TagIsNotExist = "Tag isn't exist",
+  TagDtoValidationFailed = 'Tag DTO validation failed',
+  TagCreationFailed = 'Tag creation failed',
 }

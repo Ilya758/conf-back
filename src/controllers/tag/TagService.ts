@@ -1,19 +1,22 @@
 import { Filterable } from 'sequelize';
 import { TagErrorCodes, tagErrorCodesMap } from '../../common/codes';
-import { IMeetupTag } from '../../common/models/interfaces/IMeetupTag';
+import { ITag } from '../../common/models/interfaces/ITag';
 import { ModelService } from '../../models/ModelService';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
+import { TagDto } from './DTO';
 
 export default class TagService {
   public getAll = async (
     id: string | null = null
   ): Promise<
-    ReturnType<typeof tagModel.findAll> | ReturnType<typeof tagModel.findByPk>
+    | ReturnType<typeof tagModel.findAll>
+    | ReturnType<typeof tagModel.findByPk>
+    | never
   > => {
     const {
       modelDefinitions: { tagModel },
     } = ModelService;
-    const whereStatement: Filterable<IMeetupTag>['where'] = id
+    const whereStatement: Filterable<ITag>['where'] = id
       ? {
           id,
         }
@@ -28,5 +31,24 @@ export default class TagService {
       );
 
     return !id ? tags : tags[0];
+  };
+
+  public createTag = async (tag: TagDto): Promise<number> | never => {
+    const {
+      modelDefinitions: { tagModel },
+    } = ModelService;
+
+    try {
+      const {
+        dataValues: { id },
+      } = await tagModel.create(tag);
+
+      return id;
+    } catch (error) {
+      throw createUserHttpException(
+        TagErrorCodes.TagCreationFailed,
+        tagErrorCodesMap
+      );
+    }
   };
 }

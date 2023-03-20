@@ -39,6 +39,9 @@ const meetupErrorCodesMap = {
 
 const tagErrorCodesMap = {
   [TagErrorCodes.TagIsNotExist]: TagErrorMessages.TagIsNotExist,
+  [TagErrorCodes.TagDtoValidationFailed]:
+    TagErrorMessages.TagDtoValidationFailed,
+  [TagErrorCodes.TagCreationFailed]: TagErrorMessages.TagCreationFailed,
 };
 
 export {
