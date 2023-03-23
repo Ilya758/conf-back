@@ -9,20 +9,21 @@ export enum AuthErrorCodes {
 
 export enum CommonErrorCodes {
   PrimaryKeyValidationFailed = 7,
+  PaginationValidationFailed = 8,
 }
 
 export enum MeetupErrorCodes {
-  MeetupIsNotExist = 8,
-  MeetupDtoValidationFailed = 9,
-  MeetupCreationFailed = 10,
-  MeetupModificationFailed = 11,
-  MeetupDeletionFailed = 12,
+  MeetupIsNotExist = 9,
+  MeetupDtoValidationFailed = 10,
+  MeetupCreationFailed = 11,
+  MeetupModificationFailed = 12,
+  MeetupDeletionFailed = 13,
 }
 
 export enum TagErrorCodes {
-  TagIsNotExist = 13,
-  TagDtoValidationFailed = 14,
-  TagCreationFailed = 15,
-  TagModificationFailed = 15,
-  TagDeletionFailed = 16,
+  TagIsNotExist = 14,
+  TagDtoValidationFailed = 15,
+  TagCreationFailed = 16,
+  TagModificationFailed = 17,
+  TagDeletionFailed = 18,
 }

@@ -9,6 +9,7 @@ export enum AuthErrorMessages {
 
 export enum CommonErrorMessages {
   PrimaryKeyValidationFailed = 'Primary key validation failed',
+  PaginationValidationFailed = 'Pagination validation failed',
 }
 
 export enum MeetupErrorMessages {

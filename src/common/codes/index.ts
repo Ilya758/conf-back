@@ -26,6 +26,8 @@ const authErrorCodesMap = {
 const commonErrorCodesMap = {
   [CommonErrorCodes.PrimaryKeyValidationFailed]:
     CommonErrorMessages.PrimaryKeyValidationFailed,
+  [CommonErrorCodes.PaginationValidationFailed]:
+    CommonErrorMessages.PaginationValidationFailed,
 };
 
 const meetupErrorCodesMap = {

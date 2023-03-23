@@ -1,19 +1,25 @@
 import { Filterable, Op, Sequelize } from 'sequelize';
-import { IMeetupModel } from '../../../common/models/interfaces';
+import {
+  IMeetupDto,
+  IMeetupModel,
+  IPageView,
+} from '../../../common/models/interfaces';
 import { ModelService } from '../../../models/ModelService';
 import { createUserHttpException } from '../../../utils/createHttpExceptions';
 import { arrayAggregate, includeAssociation } from '../../../utils/sequelize';
 import { MeetupErrorCodes, meetupErrorCodesMap } from '../../../common/codes';
 import { CreateMeetupDto, UpdateMeetupDto } from '../DTO';
 import { getUniqueParticipants } from './helpers';
+import { generatePage } from '../../../utils';
 
 export default class MeetupService {
   public getAll = async (
-    id: string | null = null
+    id: string | null = null,
+    { pageIndex, pageSize }: IPageView = { pageIndex: 1, pageSize: 10 }
   ):
     | Promise<
-        | ReturnType<typeof meetupModel.findAll>
         | ReturnType<typeof meetupModel.findByPk>
+        | IMeetupDto<ReturnType<typeof meetupModel.findAll>>
       >
     | never => {
     const {
@@ -39,6 +45,9 @@ export default class MeetupService {
       order: [[Sequelize.literal('meetups.id'), 'ASC']],
       group: ['meetups.id'],
       where: whereStatement,
+      subQuery: false,
+      limit: pageSize,
+      offset: (pageIndex - 1) * pageSize,
     });
 
     if (id && !meetups.length) {
@@ -48,7 +57,15 @@ export default class MeetupService {
       );
     }
 
-    return !id ? meetups : meetups[0];
+    if (!id) {
+      const { count } = await meetupModel.findAndCountAll({ raw: true });
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore incompatibility of types
+      return generatePage(meetups, count, { pageIndex, pageSize });
+    }
+
+    return meetups[0];
   };
 
   public createMeetup = async (

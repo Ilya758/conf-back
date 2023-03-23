@@ -6,7 +6,12 @@ import { authMiddleware, validationMiddleware } from '../../middlewares';
 import { validatePrimaryKey } from '../../middlewares/validatePrimaryKey';
 import { useAllPathRoute } from '../../utils';
 import { createUserHttpException } from '../../utils/createHttpExceptions';
-import { MeetupErrorCodes, meetupErrorCodesMap } from '../../common/codes';
+import {
+  CommonErrorCodes,
+  commonErrorCodesMap,
+  MeetupErrorCodes,
+  meetupErrorCodesMap,
+} from '../../common/codes';
 import { CreateMeetupDto, UpdateMeetupDto } from './DTO';
 import { MeetupService } from './services';
 
@@ -48,10 +53,21 @@ export class MeetupController implements IController {
       .get(`${MeetupPath.Meetups}/:id`, validatePrimaryKey, this.getById);
   }
 
-  private getAll: RequestHandler = async (_, res, next) => {
+  private getAll: RequestHandler = async (req, res, next) => {
     try {
-      const meetups = await this.meetupService.getAll();
-      res.send(meetups);
+      if (req.query.pageSize && req.query.pageIndex) {
+        const { pageIndex, pageSize } = req.query;
+        const meetups = await this.meetupService.getAll(null, {
+          pageIndex: Number(pageIndex),
+          pageSize: Number(pageSize),
+        });
+        res.send(meetups);
+      } else {
+        throw createUserHttpException(
+          CommonErrorCodes.PaginationValidationFailed,
+          commonErrorCodesMap
+        );
+      }
     } catch (error) {
       next(error);
     }
