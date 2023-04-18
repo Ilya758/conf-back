@@ -7,7 +7,6 @@
 - Node.js
 - TypeScript
 - Express.js
-- Passport.js
 - JWT
 - PostgreSQL
 
